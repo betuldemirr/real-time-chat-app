@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import styled from "styled-components";
+import Chat from "./Chat";
+import JoinForm from "./JoinForm";
 
-function App() {
+const App: React.FC = () => {
+  const [username, setUsername] = useState<string | null>(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContainer>
+      {username ? <Chat /> : <JoinForm onUsernameSubmit={setUsername} />}
+    </AppContainer>
   );
-}
+};
 
 export default App;
+
+const AppContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+`;
