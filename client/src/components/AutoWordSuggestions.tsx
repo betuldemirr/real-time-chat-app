@@ -1,25 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { autoData } from "../constants/autoData";
 import { AutoWordSuggestionsProps } from "../models/AutoWordSuggestionsProps";
 
 const AutoWordSuggestions: React.FC<AutoWordSuggestionsProps> = ({
-  searchTerm,
+  suggestions,
   onSelectSuggestion,
 }) => {
-  const filteredSuggestions = autoData.filter((word) =>
-    word.toLowerCase().startsWith(searchTerm.toLowerCase())
-  );
-
-  if (!searchTerm || filteredSuggestions.length === 0) {
-    return null;
-  }
-
   return (
     <SuggestionsContainer>
-      {filteredSuggestions.map((word, index) => (
-        <SuggestionItem key={index} onClick={() => onSelectSuggestion(word)}>
-          {word}
+      {suggestions.map((suggestion, index) => (
+        <SuggestionItem
+          key={index}
+          onClick={() => onSelectSuggestion(suggestion)}
+        >
+          {suggestion}
         </SuggestionItem>
       ))}
     </SuggestionsContainer>

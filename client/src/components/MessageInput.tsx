@@ -1,33 +1,51 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MessageInputProps } from "../models/MessageInputProps";
 import AutoWordSuggestions from "./AutoWordSuggestions";
+import { autoData } from "../constants/autoData";
+import { MessageInputProps } from "../models/MessageInputProps";
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMessage(value);
+
+    if (value) {
+      const filteredSuggestions = autoData.filter((word) =>
+        word.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
 
   const handleSend = () => {
     if (message.trim()) {
       onSendMessage(message);
       setMessage("");
+      setSuggestions([]);
     }
   };
 
-  const onSelectSuggestion = (word: string) => {
-    setMessage(word);
+  const onSelectSuggestion = (suggestion: string) => {
+    setMessage(suggestion);
+    setSuggestions([]);
   };
 
   return (
     <MessageInputContainer>
       <AutoWordSuggestions
-        searchTerm={message}
+        suggestions={suggestions}
         onSelectSuggestion={onSelectSuggestion}
       />
       <InputContainer>
         <TextInput
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleChange}
           placeholder="Write a message..."
         />
         <SendButton onClick={handleSend}>Send</SendButton>
