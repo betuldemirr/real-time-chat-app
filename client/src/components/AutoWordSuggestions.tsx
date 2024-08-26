@@ -30,9 +30,7 @@ const SuggestionsContainer = styled.ul`
   gap: 10px;
   overflow-x: auto;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  border-radius: 10px 10px 0px 0px;
+  border: none;
 `;
 
 const SuggestionItem = styled.li`
@@ -40,6 +38,6 @@ const SuggestionItem = styled.li`
   cursor: pointer;
   background: #fff;
   &:hover {
-    background-color: #f0f0f0;
+    font-weight: 600;
   }
 `;

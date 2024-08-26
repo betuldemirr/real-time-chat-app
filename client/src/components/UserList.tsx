@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import { UserListProps } from "../models/UserListProps";
+import styled from "styled-components";
 
 const UserList: React.FC<UserListProps> = ({
   userList,
@@ -15,54 +15,29 @@ const UserList: React.FC<UserListProps> = ({
     );
   }
 
-  console.log("UserList before filter and map:", userList);
-
   const currentUserList = userList.filter(
     (user) => user.username === currentUser
   );
-  console.log("Filtered current user:", currentUserList);
-
   const otherUsersList = userList.filter(
     (user) => user.username !== currentUser
   );
-  console.log("Filtered other users:", otherUsersList);
-
-  const currentUserItems = currentUserList.map((user) => (
-    <UserItem key={user.id}>
-      <UserStatus />
-      {user.username} (Me)
-    </UserItem>
-  ));
-  console.log("Current user items:", currentUserItems);
-
-  const otherUserItems = otherUsersList.map((user) => (
-    <UserItem key={user.id}>
-      <UserStatus />
-      {user.username}
-    </UserItem>
-  ));
-  console.log("Other user items:", otherUserItems);
 
   return (
     <UserListContainer>
       <h2>Online Users</h2>
       <UserContainer>
-        {userList
-          .filter((user) => user.username === currentUser)
-          .map((user) => (
-            <UserItem key={user.id}>
-              <UserStatus />
-              {user.username} (Me)
-            </UserItem>
-          ))}
-        {userList
-          .filter((user) => user.username !== currentUser)
-          .map((user) => (
-            <UserItem key={user.id}>
-              <UserStatus />
-              {user.username}
-            </UserItem>
-          ))}
+        {currentUserList.map((user) => (
+          <UserItem key={user.id}>
+            <UserStatus />
+            {user.username} (Me)
+          </UserItem>
+        ))}
+        {otherUsersList.map((user) => (
+          <UserItem key={user.id}>
+            <UserStatus />
+            {user.username}
+          </UserItem>
+        ))}
       </UserContainer>
     </UserListContainer>
   );
@@ -72,16 +47,20 @@ export default UserList;
 
 const UserListContainer = styled.div`
   width: 300px;
-  height: 100%;
+  height: 100vh;
   background-color: #e0f7e9;
   color: #000;
   padding: 20px;
-  border: 2px solid #e0f7e9;
+  border-right: 2px solid #e0f7e9;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-  h2 {
-    margin-bottom: 20px;
-    color: #4caf50;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  @media (max-width: 768px) {
+    width: 200px;
+  }
+  @media (max-width: 480px) {
+    width: 100px;
   }
 `;
 
@@ -94,9 +73,7 @@ const UserItem = styled.div`
   padding: 10px 0;
   display: flex;
   align-items: center;
-  &:last-child {
-    border-bottom: none;
-  }
+  border-bottom: 1px solid #ccc;
 `;
 
 const UserStatus = styled.div`

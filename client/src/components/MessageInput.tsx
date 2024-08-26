@@ -8,7 +8,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setMessage(value);
 
@@ -30,6 +30,13 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
     }
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   const onSelectSuggestion = (suggestion: string) => {
     setMessage(suggestion);
     setSuggestions([]);
@@ -45,7 +52,8 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
         <TextInput
           type="text"
           value={message}
-          onChange={handleChange}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
           placeholder="Write a message..."
         />
         <SendButton onClick={handleSend}>Send</SendButton>
@@ -60,21 +68,24 @@ const MessageInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 20px;
   background-color: #fff;
 `;
 
 const InputContainer = styled.div`
-  width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 `;
 
 const TextInput = styled.input`
-  flex-grow: 1;
+  width: 80%;
+  flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
   font-size: 16px;
-  border-radius: 0;
+  border-radius: 4px;
+  margin-right: 10px;
 `;
 
 const SendButton = styled.button`
@@ -84,6 +95,7 @@ const SendButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 16px;
+  border-radius: 4px;
   &:hover {
     background-color: #45a049;
   }

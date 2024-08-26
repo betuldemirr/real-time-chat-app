@@ -11,12 +11,12 @@ const MessageList: React.FC<MessageListProps> = ({ messages, currentUser }) => {
     const lastMessageRef = messageRefs.current[messageRefs.current.length - 1];
 
     if (container && lastMessageRef) {
-      // Scroll yalnızca içeriğin yüksekliği container yüksekliğinden büyükse
       if (container.scrollHeight > container.clientHeight) {
         lastMessageRef.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   }, [messages]);
+
   return (
     <MessageListContainer ref={containerRef}>
       <ul>
@@ -39,16 +39,18 @@ const MessageList: React.FC<MessageListProps> = ({ messages, currentUser }) => {
 export default MessageList;
 
 const MessageListContainer = styled.div`
-  flex-grow: 1;
-  overflow-y: auto;
-  padding: 30px;
-  background-color: #fff;
   display: flex;
   flex-direction: column;
-  padding-bottom: 100px ul {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 30px 30px 10px;
+  background-color: #fff;
+  ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -60,7 +62,7 @@ const MessageItem = styled.li<{ isCurrentUser: boolean }>`
 `;
 
 const MessageContent = styled.div<{ isCurrentUser: boolean }>`
-  max-width: 40%;
+  max-width: 60%;
   padding: 10px;
   border-radius: 8px;
   background-color: ${({ isCurrentUser }) =>

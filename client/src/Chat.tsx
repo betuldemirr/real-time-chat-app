@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import UserList from "./components/UserList";
 import MessageList from "./components/MessageList";
-import { ChatProps, User } from "./models/ChatProps";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "./store";
+import { setUserList, addMessage } from "./features/chatSlice";
 import MessageInput from "./components/MessageInput";
 import io from "socket.io-client";
+import { User } from "./models/UserListProps";
 
 const socket = io("http://localhost:3001");
 
-const Chat: React.FC<ChatProps> = ({ username }) => {
-  const [userList, setUserList] = useState<User[]>([]);
-  const [messages, setMessages] = useState<{ user: string; text: string }[]>(
-    []
-  );
+const Chat: React.FC<{ username: string }> = ({ username }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const userList = useSelector((state: RootState) => state.chat.userList);
+  const messages = useSelector((state: RootState) => state.chat.messages);
 
   useEffect(() => {
     socket.emit("join", username);
 
     socket.on("userList", (userList: User[]) => {
-      console.log("Received user list from server:", userList);
-      setUserList(userList);
+      dispatch(setUserList(userList));
     });
 
     socket.on("message", (message: { user: string; text: string }) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      dispatch(addMessage(message));
     });
 
     return () => {
       socket.off("userList");
       socket.off("message");
     };
-  }, [username]);
+  }, [username, dispatch]);
 
   const onSendMessage = (message: string) => {
     if (message.trim()) {
@@ -55,26 +56,27 @@ export default Chat;
 
 const ChatContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: #f4f4f4;
 `;
 
 const Content = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: calc(100% - 300px);
-  height: 100%;
-  flex-grow: 1;
+  flex: 1;
   padding-bottom: 60px;
+  height: 100%;
   overflow: hidden;
 `;
 
 const MessageInputContainer = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: calc(100% - 400px);
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: -webkit-fill-available;
   background-color: #fff;
-  padding: 0 10px;
+  padding: 30px;
   z-index: 999;
 `;

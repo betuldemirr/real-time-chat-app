@@ -1,9 +1,9 @@
 export const autoData: string[] = [
      "Merhaba",
+     "Selam",
      "Nasılsın?",
      "Günaydın",
      "İyi geceler",
-     "Naber?",
      "Teşekkür ederim",
      "Görüşürüz",
      "Hoşça kal",
@@ -25,6 +25,7 @@ export const autoData: string[] = [
      "Ne yapıyorsun?",
      "Ne zaman?",
      "Naber?",
+     "Hadi",
      "Hadi görüşürüz",
      "Hoş geldin",
      "Hoş bulduk",

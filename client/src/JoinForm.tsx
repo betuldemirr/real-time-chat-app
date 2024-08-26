@@ -48,23 +48,37 @@ const JoinFormContainer = styled.div`
   display: flex;
   height: 100vh;
   overflow: hidden;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const LeftPanel = styled.div`
-  width: 30%;
+  width: 50%;
   background-color: #e0f7e9;
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const RightPanel = styled.div`
-  width: 70%;
+  width: 50%;
   background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const FormWrapper = styled.div`
@@ -75,6 +89,9 @@ const FormWrapper = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  @media (min-width: 768px) and (max-width: 992px) {
+    padding: 20px;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -121,4 +138,8 @@ const FadingText = styled.div<{ delay?: string }>`
   margin-bottom: 20px;
   animation: ${fadeInOut} 10s linear infinite;
   animation-delay: ${({ delay }) => delay || "0s"};
+  @media (min-width: 768px) and (max-width: 992px) {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
 `;

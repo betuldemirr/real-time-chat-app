@@ -1,11 +1,12 @@
 import { Socket } from "socket.io-client";
-export interface UserProps {
+
+export interface User {
      id: string;
      username: string;
 }
 
 export interface UserListProps {
-     userList: UserProps[];
+     userList: User[];
      currentUser: string;
      socket: Socket;
 }

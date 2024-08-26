@@ -10,33 +10,28 @@ const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server);
-app.use(express_1.default.static(path_1.default.resolve(__dirname, "../../client/build")));
+const users = new Map();
+app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/build")));
 app.get("/", (req, res) => {
-    res.sendFile(path_1.default.resolve(__dirname, "../../client/build", "index.html"));
+    res.sendFile(path_1.default.join(__dirname, "../../client/build", "index.html"));
 });
-let users = {};
 io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id);
-    // socket.on("join", (username: string) => {
-    //      users[socket.id] = username;
-    //      io.emit("userList", Object.keys(users).map(id => ({ id, username: users[id] })));
-    //      io.emit("message", { user: "System", text: `${username} has joined the chat` });
-    // });
+    console.log("New user connected");
     socket.on("join", (username) => {
-        users[socket.id] = username;
-        const userList = Object.keys(users).map(id => ({ id, username: users[id] }));
-        console.log("User list sent to clients:", userList);
-        io.emit("userList", userList);
+        users.set(socket.id, username);
+        io.emit("userList", Array.from(users.entries()).map(([id, username]) => ({ id, username })));
     });
     socket.on("sendMessage", (message) => {
-        io.emit("message", { user: users[socket.id], text: message });
+        const username = users.get(socket.id);
+        if (username) {
+            io.emit("message", { user: username, text: message });
+        }
     });
     socket.on("disconnect", () => {
-        io.emit("message", { user: "System", text: `${users[socket.id]} has left the chat` });
-        delete users[socket.id];
-        io.emit("userList", Object.keys(users).map(id => ({ id, username: users[id] })));
+        users.delete(socket.id);
+        io.emit("userList", Array.from(users.entries()).map(([id, username]) => ({ id, username })));
     });
 });
 server.listen(3001, () => {
-    console.log("Server is running on port 3001");
+    console.log("Server listening on port 3001");
 });
