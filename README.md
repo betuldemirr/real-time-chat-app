@@ -6,7 +6,7 @@ This project is a simple chat application that allows users to send messages to 
 This project is a real-time chat application built using React and Socket.IO.
 It consists of two main components: `client` (React application) and `server` (Node.js server).
 
-## Setup
+### Setup
 
 To get this project up and running, you need to install the dependencies for both the `client` and `server` directories separately.
 
@@ -31,3 +31,8 @@ npm install
 # or
 yarn install
 ```
+
+### Technologies
+Frontend: React, styled-components
+Backend: Node.js, Express, Socket.IO
+
