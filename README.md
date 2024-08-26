@@ -1,7 +1,7 @@
 # real-time-chat-app (Chat Application)
 
-![Chat App Screenshot 1](https://prnt.sc/-tcSYWH_T5Qw)
-![Chat App Screenshot 2](https://prnt.sc/Qf5aaXnbVKnI)
+<img width="1118" alt="chat-1" src="https://github.com/user-attachments/assets/a139b836-a565-4796-97af-830187af4994">
+<img width="1117" alt="chat-2" src="https://github.com/user-attachments/assets/b340013e-43b7-46f5-b11a-697c3c31cbd3">
 
 ## Project Overview
 
