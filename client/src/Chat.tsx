@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import UserList from "./components/UserList";
 import MessageList from "./components/MessageList";
@@ -14,6 +14,24 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
     []
   );
 
+  useEffect(() => {
+    socket.emit("join", username);
+
+    socket.on("userList", (userList: User[]) => {
+      console.log("Received user list from server:", userList);
+      setUserList(userList);
+    });
+
+    socket.on("message", (message: { user: string; text: string }) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => {
+      socket.off("userList");
+      socket.off("message");
+    };
+  }, [username]);
+
   const onSendMessage = (message: string) => {
     if (message.trim()) {
       socket.emit("sendMessage", message);
@@ -22,13 +40,11 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
 
   return (
     <ChatContainer>
-      <LeftPanel>
-        <UserList userList={userList} currentUser={username} />
-      </LeftPanel>
-      <RightPanel>
+      <UserList userList={userList} currentUser={username} socket={socket} />
+      <ChatContent>
         <MessageList messages={messages} currentUser={username} />
         <MessageInput onSendMessage={onSendMessage} />
-      </RightPanel>
+      </ChatContent>
     </ChatContainer>
   );
 };
@@ -36,17 +52,15 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
 export default Chat;
 
 const ChatContainer = styled.div`
-  width: 100%;
-  height: 100vh;
   display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #f4f4f4;
 `;
 
-const LeftPanel = styled.div`
-  width: 30%;
-  height: 100%;
-`;
-
-const RightPanel = styled.div`
-  width: 70%;
-  height: 100%;
+const ChatContent = styled.div`
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 `;

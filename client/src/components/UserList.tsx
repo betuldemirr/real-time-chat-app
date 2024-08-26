@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { UserListProps } from "../models/UserListProps";
 
-const UserList: React.FC<UserListProps> = ({ userList, currentUser }) => {
+const UserList: React.FC<UserListProps> = ({
+  userList,
+  currentUser,
+  socket,
+}) => {
   if (userList.length === 0) {
     return (
       <UserListContainer>
@@ -10,6 +14,34 @@ const UserList: React.FC<UserListProps> = ({ userList, currentUser }) => {
       </UserListContainer>
     );
   }
+
+  console.log("UserList before filter and map:", userList);
+
+  const currentUserList = userList.filter(
+    (user) => user.username === currentUser
+  );
+  console.log("Filtered current user:", currentUserList);
+
+  const otherUsersList = userList.filter(
+    (user) => user.username !== currentUser
+  );
+  console.log("Filtered other users:", otherUsersList);
+
+  const currentUserItems = currentUserList.map((user) => (
+    <UserItem key={user.id}>
+      <UserStatus />
+      {user.username} (Me)
+    </UserItem>
+  ));
+  console.log("Current user items:", currentUserItems);
+
+  const otherUserItems = otherUsersList.map((user) => (
+    <UserItem key={user.id}>
+      <UserStatus />
+      {user.username}
+    </UserItem>
+  ));
+  console.log("Other user items:", otherUserItems);
 
   return (
     <UserListContainer>
@@ -51,10 +83,12 @@ const UserListContainer = styled.div`
     color: #4caf50;
   }
 `;
+
 const UserContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const UserItem = styled.div`
   padding: 10px 0;
   display: flex;
@@ -63,9 +97,10 @@ const UserItem = styled.div`
     border-bottom: none;
   }
 `;
+
 const UserStatus = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background-color: #4caf50;
   border-radius: 50%;
   margin-right: 10px;

@@ -12,20 +12,12 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
     }
   };
 
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
   return (
     <MessageInputContainer>
       <TextInput
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={onKeyDown}
         placeholder="Write a message..."
       />
       <SendButton onClick={handleSend}>Send</SendButton>
@@ -39,7 +31,7 @@ const MessageInputContainer = styled.div`
   display: flex;
   padding: 20px;
   background-color: #fff;
-  //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const TextInput = styled.input`
