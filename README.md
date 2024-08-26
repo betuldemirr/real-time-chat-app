@@ -1,5 +1,8 @@
 # real-time-chat-app (Chat Application)
 
+https://prnt.sc/-tcSYWH_T5Qw
+https://prnt.sc/Qf5aaXnbVKnI
+
 ## Project Overview
 
 This project is a simple chat application that allows users to send messages to each other in real time. Users can join the chat room by entering a username and then start chatting with other users.
