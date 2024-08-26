@@ -8,7 +8,11 @@ const App: React.FC = () => {
 
   return (
     <AppContainer>
-      {username ? <Chat /> : <JoinForm onUsernameSubmit={setUsername} />}
+      {username ? (
+        <Chat username={username} />
+      ) : (
+        <JoinForm onUsernameSubmit={setUsername} />
+      )}
     </AppContainer>
   );
 };

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-
-interface JoinFormProps {
-  onUsernameSubmit: (username: string) => void;
-}
+import { JoinFormProps } from "./models/JoinFormProps";
 
 const JoinForm: React.FC<JoinFormProps> = ({ onUsernameSubmit }) => {
   const [username, setUsername] = useState<string>("");
