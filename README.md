@@ -1,7 +1,7 @@
 # real-time-chat-app (Chat Application)
 
-https://prnt.sc/-tcSYWH_T5Qw
-https://prnt.sc/Qf5aaXnbVKnI
+![Chat App Screenshot 1](https://prnt.sc/-tcSYWH_T5Qw)
+![Chat App Screenshot 2](https://prnt.sc/Qf5aaXnbVKnI)
 
 ## Project Overview
 
