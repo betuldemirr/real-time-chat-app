@@ -78,6 +78,7 @@ const UserListContainer = styled.div`
   padding: 20px;
   border: 2px solid #e0f7e9;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
   h2 {
     margin-bottom: 20px;
     color: #4caf50;

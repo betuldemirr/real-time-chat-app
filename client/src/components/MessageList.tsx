@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { MessageListProps } from "../models/MessageListProps";
 
 const MessageList: React.FC<MessageListProps> = ({ messages, currentUser }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const messageRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const lastMessageRef = messageRefs.current[messageRefs.current.length - 1];
+
+    if (container && lastMessageRef) {
+      // Scroll yalnızca içeriğin yüksekliği container yüksekliğinden büyükse
+      if (container.scrollHeight > container.clientHeight) {
+        lastMessageRef.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [messages]);
   return (
-    <MessageListContainer>
+    <MessageListContainer ref={containerRef}>
       <ul>
         {messages.map((message, index) => (
-          <MessageItem key={index} isCurrentUser={message.user === currentUser}>
+          <MessageItem
+            key={index}
+            isCurrentUser={message.user === currentUser}
+            ref={(el) => (messageRefs.current[index] = el)}
+          >
             <MessageContent isCurrentUser={message.user === currentUser}>
               <strong>{message.user}:</strong> {message.text}
             </MessageContent>
@@ -23,11 +41,11 @@ export default MessageList;
 const MessageListContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 30px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  ul {
+  padding-bottom: 100px ul {
     list-style: none;
     padding: 0;
     margin: 0;

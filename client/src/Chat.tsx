@@ -41,10 +41,12 @@ const Chat: React.FC<ChatProps> = ({ username }) => {
   return (
     <ChatContainer>
       <UserList userList={userList} currentUser={username} socket={socket} />
-      <ChatContent>
+      <Content>
         <MessageList messages={messages} currentUser={username} />
-        <MessageInput onSendMessage={onSendMessage} />
-      </ChatContent>
+        <MessageInputContainer>
+          <MessageInput onSendMessage={onSendMessage} />
+        </MessageInputContainer>
+      </Content>
     </ChatContainer>
   );
 };
@@ -54,13 +56,25 @@ export default Chat;
 const ChatContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #f4f4f4;
 `;
 
-const ChatContent = styled.div`
-  width: 100%;
-  flex-grow: 1;
+const Content = styled.div`
   display: flex;
   flex-direction: column;
+  width: calc(100% - 300px);
+  height: 100%;
+  flex-grow: 1;
+  padding-bottom: 60px;
+  overflow: hidden;
+`;
+
+const MessageInputContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 400px);
+  background-color: #fff;
+  padding: 0 10px;
+  z-index: 999;
 `;

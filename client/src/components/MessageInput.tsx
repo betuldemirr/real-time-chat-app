@@ -29,9 +29,9 @@ export default MessageInput;
 
 const MessageInputContainer = styled.div`
   display: flex;
+  width: 100%;
   padding: 20px;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const TextInput = styled.input`
